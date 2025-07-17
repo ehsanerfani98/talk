@@ -1,0 +1,169 @@
+Enum "user_type_enum" {
+  "real"
+  "legal"
+}
+
+Enum "payment_status_enum" {
+  "pending"
+  "paid"
+  "failed"
+}
+
+Enum "wallet_transaction_type_enum" {
+  "credit"
+  "debit"
+}
+
+Enum "payment_type_enum" {
+  "wallet_topup"
+  "subscription_direct"
+  "subscription_wallet"
+}
+
+Enum "service_request_status_enum" {
+  "pending"
+  "in_progress"
+  "approved"
+  "rejected"
+  "completed"
+  "cancelled"
+}
+
+Table "users" {
+  "id" UUID [pk, unique]
+  "name" VARCHAR(255) [not null]
+  "email" VARCHAR(255) [unique, not null]
+  "phone" VARCHAR(255) [unique, not null]
+  "email_verified_at" TIMESTAMP
+  "password" VARCHAR(255) [not null]
+  "remember_token" VARCHAR(100)
+  "created_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "updated_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table "settings" {
+  "id" UUID [pk, unique]
+  "key" VARCHAR(255) [not null]
+  "value" TEXT
+  "created_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "updated_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table "services" {
+  "id" UUID [pk, unique]
+  "icon" TEXT [not null]
+  "name" VARCHAR(255) [not null]
+  "description" TEXT
+  "is_active" BOOLEAN [default: false]
+  "created_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "updated_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table "user_documents" {
+  "id" INT [pk, increment]
+  "user_id" UUID [not null]
+  "type" user_type_enum [not null]
+  "first_name" VARCHAR(255)
+  "last_name" VARCHAR(255)
+  "mobile" VARCHAR(255)
+  "company_name" VARCHAR(255)
+  "national_id" VARCHAR(20)
+  "company_address" TEXT
+  "is_verified" BOOLEAN [default: false]
+  "needs_correction" BOOLEAN [default: false]
+  "description" TEXT
+  "created_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "updated_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table "subscriptions" {
+  "id" UUID [pk, unique]
+  "icon" TEXT [not null]
+  "name" VARCHAR(255) [not null]
+  "price" INT [not null]
+  "duration_days" INT [not null]
+  "is_active" BOOLEAN [default: false]
+  "created_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "updated_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table "user_subscriptions" {
+  "id" INT [pk, increment]
+  "user_id" UUID [not null]
+  "subscription_id" UUID [not null]
+  "starts_at" TIMESTAMP [not null]
+  "ends_at" TIMESTAMP [not null]
+  "created_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table "user_services" {
+  "id" INT [pk, increment]
+  "user_id" UUID [not null]
+  "service_id" UUID [not null]
+  "created_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table "payments" {
+  "id" UUID [pk, unique]
+  "user_id" UUID [not null]
+  "user_subscription_id" INT
+  "type" payment_type_enum [not null]
+  "amount" INT [not null]
+  "transaction_id" VARCHAR(100) [unique]
+  "status" payment_status_enum [default: 'pending']
+  "created_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table "wallets" {
+  "id" UUID [pk, unique]
+  "user_id" UUID [unique, not null]
+  "balance" INT [default: 0]
+  "created_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "updated_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table "wallet_transactions" {
+  "id" INT [pk, increment]
+  "wallet_id" UUID [not null]
+  "payment_id" UUID
+  "type" wallet_transaction_type_enum [not null]
+  "amount" INT [not null]
+  "description" TEXT
+  "created_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table "document_files" {
+  "id" INT [pk, increment]
+  "user_document_id" INT [not null]
+  "path" TEXT [not null]
+  "created_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "updated_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+}
+
+Table "service_requests" {
+  "id" UUID [pk, unique]
+  "user_id" UUID [not null]
+  "service_id" UUID [not null]
+  "status" service_request_status_enum [default: 'pending']
+  "description" TEXT
+  "admin_notes" TEXT
+  "rejection_reason" TEXT
+  "requested_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "updated_at" TIMESTAMP [default: `CURRENT_TIMESTAMP`]
+  "completed_at" TIMESTAMP
+}
+
+
+Ref: "users"."id" < "user_documents"."user_id" [delete: cascade]
+Ref: "users"."id" < "user_subscriptions"."user_id" [delete: cascade]
+Ref: "subscriptions"."id" < "user_subscriptions"."subscription_id" [delete: cascade]
+Ref: "users"."id" < "user_services"."user_id" [delete: cascade]
+Ref: "services"."id" < "user_services"."service_id" [delete: cascade]
+Ref: "users"."id" < "payments"."user_id" [delete: cascade]
+Ref: "user_subscriptions"."id" < "payments"."user_subscription_id" [delete: cascade]
+Ref: "users"."id" < "wallets"."user_id" [delete: cascade]
+Ref: "wallets"."id" < "wallet_transactions"."wallet_id" [delete: cascade]
+Ref: "payments"."id" < "wallet_transactions"."payment_id" [delete: set null]
+Ref: "user_documents"."id" < "document_files"."user_document_id" [delete: cascade]
+Ref: "users"."id" < "service_requests"."user_id" [delete: cascade]
+Ref: "services"."id" < "service_requests"."service_id" [delete: cascade]
