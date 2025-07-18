@@ -32,12 +32,14 @@ class ChatController extends Controller
     // شروع یک گفتگو با مشاور (اگر وجود نداشت)
     public function startConversationUser(User $advisor)
     {
+
         $user = Auth::user();
 
         $conversation = Conversation::where('user_id', $user->id)
             ->where('advisor_id', $advisor->id);
 
         if ($conversation->exists()) {
+            $conversation->id = $conversation->first()->id;
             broadcast(new JoinUserConversionEvent(false, $user))->toOthers();
         } else {
             if ($user->hasRole('User')) {
@@ -49,7 +51,7 @@ class ChatController extends Controller
             broadcast(new JoinUserConversionEvent(true, $user))->toOthers();
         }
 
-        return redirect()->route('user.chat.room', [$conversation->first()->id, $advisor->id]);
+        return redirect()->route('user.chat.room', [$conversation->id, $advisor->id]);
     }
 
     // نمایش صفحه‌ی چت روم
@@ -129,9 +131,17 @@ class ChatController extends Controller
 
     protected function authorizeAccess(Conversation $conversation)
     {
-        $userId = Auth::id();
-        if ($conversation->user_id !== $userId && $conversation->advisor_id !== $userId) {
-            abort(403, 'دسترسی غیرمجاز به گفتگو.');
+        $user = Auth::user();
+        $userId = $user->id;
+        if ($user->hasRole('User')) {
+            if ($conversation->user_id !== $userId) {
+                abort(403, 'دسترسی غیرمجاز به گفتگو.');
+            }
+        }
+        if ($user->hasRole('advisor')) {
+            if ($conversation->advisor_id !== $userId) {
+                abort(403, 'دسترسی غیرمجاز به گفتگو.');
+            }
         }
     }
 

@@ -375,14 +375,14 @@
                     set_in_room(true, conversationId, userId);
                 })
                 .joining((user) => {
-                    set_in_room(true, conversationId, user.id);
+                    set_in_room(true, conversationId, userId);
                     document.querySelectorAll('.message.received .message-time i.fas').forEach((icon) => {
                         icon.classList.remove('fa-check');
                         icon.classList.add('fa-check-double', 'text-info');
                     });
                 })
                 .leaving((user) => {
-                    set_in_room(false, conversationId, user.id);
+                    set_in_room(false, conversationId, userId);
                 })
                 .listen('.chat.message.sent', (e) => {
                     addMessage(e.user, e.user.message, e.user.message.created_at);

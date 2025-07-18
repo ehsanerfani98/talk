@@ -79,7 +79,7 @@ class AdvisorsController extends Controller
     protected function authorizeAccess(Conversation $conversation)
     {
         $userId = Auth::id();
-        if ($conversation->user_id !== $userId && $conversation->advisor_id !== $userId) {
+        if ($conversation->advisor_id !== $userId) {
             abort(403, 'دسترسی غیرمجاز به گفتگو.');
         }
     }
