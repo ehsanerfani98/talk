@@ -79,13 +79,34 @@
 @endsection
 
 @section('content')
-    {!! $service->description !!}
+
+
+    <div class="alert alert-info text-center p-2 d-flex align-items-center justify-content-between" style="font-size: 14px">
+        نیاز به مشاوره دارید؟ همین حالا به صورت آنلاین با مشاوران ما گفتگو کنید. <a
+            href="{{ route('user.advisors', ['id' => 1]) }}" class="btn btn-sm btn-primary">مشاوره آنلاین</a>
+    </div>
+
+    @if (!empty($service->description))
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="card-header mb-3">
+                    شرح خدمات
+                </div>
+                <div style="font-size: 14px;line-height: 1">
+                    {!! $service->description !!}
+                </div>
+            </div>
+        </div>
+    @endif
+
 
     <div class="card">
         <div class="card-body">
             <div class="form-group">
                 <label for="description" class="mb-2">توضیحات شما</label>
                 <textarea name="" class="form-control" id="description"></textarea>
+                <small style="font-size: 12px ;color: #666">چنانچه پرسشی دارید مطرح کنید.</small>
+
             </div>
             <button id="submitServiceBtn" type="submit" class="btn btn-sm btn-primary mt-3">
                 <span class="spinner-border spinner-border-sm btn-spinner" role="status" aria-hidden="true"></span>

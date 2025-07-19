@@ -129,9 +129,9 @@
         </div>
 
 
-        <div class="button-float">
+        {{-- <div class="button-float">
             <i class="fa fa-headset"></i>
-        </div>
+        </div> --}}
 
     </div>
 

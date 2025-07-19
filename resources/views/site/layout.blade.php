@@ -57,8 +57,8 @@
     <nav class="bottom-bar d-flex justify-content-around align-items-center">
         <a href="{{ route('user.home') }}"><img src="{{ asset('site-assets') }}/images/icons/home.svg"
                 alt="خانه"></a>
-        <a href="{{ route('user.transactions') }}"><img src="{{ asset('site-assets') }}/images/icons/history.svg"
-                alt="تاریخچه"></a>
+        <a href="{{ route('user.advisors') }}"><img src="{{ asset('site-assets') }}/images/icons/support.svg"
+                alt="مشاوره آنلاین"></a>
         <a href="{{ route('user.wallet') }}"><img
                 src="{{ asset('site-assets') }}/images/icons/account_balance_wallet.svg" alt="کیف پول"></a>
         <a href="{{ route('user.profile.edit') }}"><img src="{{ asset('site-assets') }}/images/icons/person.svg"

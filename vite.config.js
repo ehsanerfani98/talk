@@ -11,7 +11,7 @@ export default defineConfig({
     server: {
         host: "0.0.0.0",
         hmr: {
-            host: "89.251.8.198",
+            host: "shetabito.ir",
             port: 5173,
         },
     },

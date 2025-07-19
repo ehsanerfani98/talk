@@ -713,8 +713,8 @@
                     <li><a href="#home">صفحه اصلی</a></li>
                     <li><a href="#features">ویژگی‌ها</a></li>
                     <li><a href="#how-it-works">نحوه کار</a></li>
-                    <li><a href="#testimonials">نظرات کاربران</a></li>
-                    <li><a href="#download">دانلود</a></li>
+                    {{-- <li><a href="#testimonials">نظرات کاربران</a></li> --}}
+                    {{-- <li><a href="#download">دانلود</a></li> --}}
                 </ul>
             </nav>
 
@@ -735,8 +735,8 @@
             <li><a href="#home">صفحه اصلی</a></li>
             <li><a href="#features">ویژگی‌ها</a></li>
             <li><a href="#how-it-works">نحوه کار</a></li>
-            <li><a href="#testimonials">نظرات کاربران</a></li>
-            <li><a href="#download">دانلود</a></li>
+            {{-- <li><a href="#testimonials">نظرات کاربران</a></li> --}}
+            {{-- <li><a href="#download">دانلود</a></li> --}}
             <li><a href="#" class="cta-button">شروع کنید</a></li>
         </ul>
     </nav>
@@ -747,14 +747,14 @@
             <div class="hero-text">
                 <h1>تجربه‌ای <span>منحصر به فرد</span> با سامانه تاک</h1>
                 <p>سامانه تاک با امکانات پیشرفته و رابط کاربری ساده، زندگی دیجیتال شما را متحول می‌کند. همین حالا به جمع هزاران کاربر راضی ما بپیوندید.</p>
-                <div class="app-badges">
+                {{-- <div class="app-badges">
                     <a href="#" class="app-badge">
                         <i class="fab fa-google-play"></i> گوگل پلی
                     </a>
                     <a href="#" class="app-badge">
                         <i class="fab fa-apple"></i> اپ استور
                     </a>
-                </div>
+                </div> --}}
             </div>
             <div class="hero-image">
                 <img src="{{ asset('images/talk-mockup.png') }}" alt="سامانه تاک">
@@ -859,7 +859,7 @@
     </section>
 
     <!-- Testimonials Section -->
-    <section class="testimonials" id="testimonials">
+    {{-- <section class="testimonials" id="testimonials">
         <div class="container">
             <div class="section-title">
                 <h2>نظرات کاربران</h2>
@@ -881,10 +881,10 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <!-- Download Section -->
-    <section class="download" id="download">
+    {{-- <section class="download" id="download">
         <div class="container">
             <h2>همین حالا سامانه تاک را دانلود کنید</h2>
             <p>به جمع هزاران کاربر راضی ما بپیوندید و تجربه‌ای منحصر به فرد داشته باشید</p>
@@ -897,7 +897,7 @@
                 </a>
             </div>
         </div>
-    </section>
+    </section> --}}
 
     <!-- Footer -->
     <footer>
